@@ -37,8 +37,8 @@ public class XssFilter implements Filter {
         XssHttpServletRequestWrapper xssRequest = new XssHttpServletRequestWrapper((HttpServletRequest) request,IS_INCLUDE_RICH_TEXT);
         filterChain.doFilter(xssRequest, response);
         //这么写会返回两次，需要合并
-        XssHttpServletRequestWrapperNew xssRequestnew = new XssHttpServletRequestWrapperNew((HttpServletRequest) request);
-        filterChain.doFilter(xssRequestnew, response);
+       // XssHttpServletRequestWrapperNew xssRequestnew = new XssHttpServletRequestWrapperNew((HttpServletRequest) request);
+       // filterChain.doFilter(xssRequestnew, response);
     }
 
     private boolean handleExcludeURL(HttpServletRequest request, HttpServletResponse response) {
