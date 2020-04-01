@@ -32,18 +32,20 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
         if (StringUtils.isNotBlank(value)) {
             value = JsoupUtil.clean(value);
         }
-        return value;
+        return  clearXss(super.getParameter(value));
     }
 
     @Override
     public String[] getParameterValues(String name) {
         String[] arr = super.getParameterValues(name);
+        String[] newValues = new String[arr.length];
         if(arr != null){
             for (int i=0;i<arr.length;i++) {
                 arr[i] = JsoupUtil.clean(arr[i]);
+                newValues[i] = clearXss(arr[i]);
             }
         }
-        return arr;
+        return newValues;
     }
 
 
@@ -59,7 +61,7 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
         if (StringUtils.isNotBlank(value)) {
             value = JsoupUtil.clean(value);
         }
-        return value;
+        return clearXss(super.getHeader(value));
     }
 
     /**
@@ -81,6 +83,31 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
             return ((XssHttpServletRequestWrapper) req).getOrgRequest();
         }
         return req;
+    }
+
+
+
+
+    /**
+     * 处理字符转义
+     *
+     * @param value
+     * @return
+     */
+    private String clearXss(String value) {
+        System.out.println("---------------我在进行字符过滤----------------------");
+        if (value == null || "".equals(value)) {
+            return value;
+        }
+        value = value.replaceAll("<", "<").replaceAll(">", ">");
+        value = value.replaceAll("\\(", "(").replace("\\)", ")");
+        value = value.replaceAll("'", "'");
+        value = value.replaceAll("eval\\((.*)\\)", "");
+        value = value.replaceAll("[\\\"\\\'][\\s]*javascript:(.*)[\\\"\\\']",
+                "\"\"");
+        value = value.replace("script", "");
+        value = value.replace("%", "");
+        return value;
     }
 
 }
