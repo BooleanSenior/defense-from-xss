@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>XSS演示</title>
+    <script src="./jquery.min.js"></script>
+</head>
+<script>
+    function go() {
+
+        $.ajax({
+            type:"POST",  //请求方式   get查询  post增加  put修改   delete删除
+            url:"http://localhost:8080/login",//请求路径
+            async:true,  //或false 是否异步
+            data:{
+                username:$("#test1").val(),
+                password:$("#test3").val()
+            },
+            timeout:5000,//超时时间
+            dataType:'text',  //返回的数据格式：json/xml/html/script/jsonp/text  如果是json但是返回String就会进入错误
+            beforeSend:function(xhr){
+                console.log('发送前');
+            },
+            success:function(data,textStatus,jqXHR){
+                console.log('成功');
+                console.log(data);
+                $("#test2").html(data);
+                $("#_a_1").attr('href',data);
+            },
+            error:function(error){
+                console.log('错误');
+            },
+            complete:function(){
+                console.log('结束');
+            }
+        })
+    }
+
+</script>
+<body>
+用户名：<input type="text" value='' id="test1" />
+密码：<input type="text" value='' id="test3" />
+
+<input  type="button" value="提交" onclick="go()"/>
+
+<hr/>
+<div >
+    <a id="_a_1" href="https://www.baidu.com/">皇家澳门赌场上线啦</a>
+    <div id="test2">
+        显示用户名
+    </div>
+</div>
+
+
+</body>
+</html>
