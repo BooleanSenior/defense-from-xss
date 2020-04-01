@@ -16,9 +16,8 @@ public class LoginController {
         System.out.println("----------进来了---------");
         System.out.println(username);
         System.out.println(password);
-        String usernameNew = username;
-        System.out.println("usernameNew-----"+usernameNew);
-        map.put("username",usernameNew);
+        map.put("username",username);
+        map.put("password",password);
         return map;
     }
 }

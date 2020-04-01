@@ -32,7 +32,7 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
         if (StringUtils.isNotBlank(value)) {
             value = JsoupUtil.clean(value);
         }
-        return  clearXss(super.getParameter(value));
+        return  clearXss(value);
     }
 
     @Override
@@ -61,7 +61,7 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
         if (StringUtils.isNotBlank(value)) {
             value = JsoupUtil.clean(value);
         }
-        return clearXss(super.getHeader(value));
+        return clearXss(value);
     }
 
     /**
@@ -95,7 +95,7 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
      * @return
      */
     private String clearXss(String value) {
-        System.out.println("---------------我在进行字符过滤----------------------");
+        System.out.println("-------我在进行字符过滤----------"+value);
         if (value == null || "".equals(value)) {
             return value;
         }
@@ -107,6 +107,7 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
                 "\"\"");
         value = value.replace("script", "");
         value = value.replace("%", "");
+        System.out.println("-------我字符过滤完了----------"+value);
         return value;
     }
 

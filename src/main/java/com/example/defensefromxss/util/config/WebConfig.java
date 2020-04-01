@@ -4,7 +4,6 @@ package com.example.defensefromxss.util.config;
 import com.example.defensefromxss.util.filter.TimeFilter;
 
 import com.example.defensefromxss.util.filter.XssFilter;
-import com.example.defensefromxss.util.filter.XssHttpServletRequestWrapperNew;
 import com.example.defensefromxss.util.interceptor.TimeInterceptor;
 import org.assertj.core.util.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
